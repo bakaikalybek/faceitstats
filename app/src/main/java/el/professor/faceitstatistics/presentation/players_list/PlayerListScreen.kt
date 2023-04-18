@@ -56,8 +56,6 @@ fun PlayerListScreen(
                 PlayerItem(
                     player = player,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
                         .clickable {
                             navigator.navigate(PlayerDetailsScreenDestination(player = player))
                         }

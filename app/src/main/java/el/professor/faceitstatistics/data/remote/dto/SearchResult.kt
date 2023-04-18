@@ -1,10 +1,10 @@
 package el.professor.faceitstatistics.data.remote.dto
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class SearchResult(
     val end: Int,
-    @field:Json(name = "items")
+    @SerializedName("items")
     val players: List<Item>,
     val start: Int
 )
@@ -14,7 +14,7 @@ data class Item(
     val country: String,
     val games: List<Game>,
     val nickname: String,
-    @field:Json(name = "player_id")
+    @SerializedName("player_id")
     val playerId: String,
     val status: String,
     val verified: Boolean

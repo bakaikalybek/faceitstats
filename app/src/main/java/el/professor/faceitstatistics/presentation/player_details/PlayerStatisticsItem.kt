@@ -20,33 +20,30 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun StatisticsItem(
     title: String,
-    value: String
+    value: String,
+    modifier: Modifier
 ) {
     Box(
-        modifier = Modifier
-            .padding(8.dp)
-            .size(170.dp)
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(18.dp))
-            .background(color = Color.hsl(34f, 0.92f, 0.7f)),
+        modifier = modifier
+            .padding(top = 8.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(color = Color.DarkGray),
         contentAlignment = Alignment.CenterStart
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = value,
-                fontSize = 45.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
+                fontSize = 28.sp,
+                fontWeight = FontWeight.SemiBold,
             )
             Text(
                 text = title,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.Black,
+                fontSize = 14.sp,
                 textAlign = TextAlign.End
             )
         }

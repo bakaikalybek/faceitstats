@@ -1,6 +1,6 @@
 package el.professor.faceitstatistics.domain.model
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
 
 data class PlayerDetails(
     val gameId: String,
@@ -24,13 +24,16 @@ data class LifetimeStats(
     val wins: String
 )
 
+@Serializable
 data class Map(
     val imgRegular: String,
     val imgSmall: String,
     val name: String,
-    val mapStats: MapStats
-)
+    val mapStats: MapStats,
+    val mode: String
+): java.io.Serializable
 
+@Serializable
 data class MapStats(
     val avgAssists: String,
     val avgDeaths: String,
@@ -44,7 +47,7 @@ data class MapStats(
     val tripleKills: String,
     val winrate: String,
     val wins: String
-)
+): java.io.Serializable
 
 data class Games(
     val csgo: Csgo

@@ -39,15 +39,19 @@ fun PlayerItem(
         else -> R.drawable.faceit10
     }
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .height(70.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(color = Color.hsl(34f, 0.92f, 0.7f)),
+            .background(color = Color.Gray),
         contentAlignment = Alignment.CenterStart
     ) {
-        Row(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
             Text(
                 text = player.nickname,
                 fontWeight = FontWeight.Bold,
@@ -68,34 +72,4 @@ fun PlayerItem(
             )
         }
     }
-//    Row(
-//        modifier = modifier,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        Column(
-//            modifier = Modifier.weight(1f)
-//        ) {
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Text(
-//                    text = player.nickname,
-//                    fontWeight = FontWeight.Bold,
-//                    fontSize = 16.sp,
-//                    color = MaterialTheme.colorScheme.onBackground,
-//                    overflow = TextOverflow.Ellipsis,
-//                    maxLines = 1,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                Spacer(modifier = Modifier.width(4.dp))
-////                )
-//                Image(
-//                    painter = painterResource(resId),
-//                    contentDescription = "avatar",
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .size(24.dp)
-//                        .clip(CircleShape)
-//                )
-//            }
-//        }
-//    }
 }

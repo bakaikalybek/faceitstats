@@ -47,7 +47,8 @@ fun MapDto.toMap(): Map {
         imgRegular = imgRegular,
         imgSmall = imgSmall,
         name = name,
-        mapStats = mapStats.toMapStats()
+        mapStats = mapStats.toMapStats(),
+        mode = mode
     )
 }
 
