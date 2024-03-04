@@ -5,8 +5,14 @@ import el.professor.faceitstatistics.data.remote.dto.*
 import el.professor.faceitstatistics.data.remote.dto.matchDto.FactionDto
 import el.professor.faceitstatistics.data.remote.dto.matchDto.MatchInfoDto
 import el.professor.faceitstatistics.data.remote.dto.matchDto.MatchPlayerDto
+import el.professor.faceitstatistics.data.remote.dto.matchDto.MatchStatsBodyDto
+import el.professor.faceitstatistics.data.remote.dto.matchDto.PlayerDto
+import el.professor.faceitstatistics.data.remote.dto.matchDto.PlayerStatsDto
 import el.professor.faceitstatistics.data.remote.dto.matchDto.ResultsDto
+import el.professor.faceitstatistics.data.remote.dto.matchDto.RoundStatsDto
 import el.professor.faceitstatistics.data.remote.dto.matchDto.ScoreDto
+import el.professor.faceitstatistics.data.remote.dto.matchDto.TeamDto
+import el.professor.faceitstatistics.data.remote.dto.matchDto.TeamStatsDto
 import el.professor.faceitstatistics.data.remote.dto.matchDto.TeamsDto
 import el.professor.faceitstatistics.domain.model.*
 import el.professor.faceitstatistics.domain.model.Map
@@ -169,3 +175,75 @@ fun MatchPlayerDto.toMatchPlayer(): MatchPlayer {
         skillLevel = skillLevel
     )
 }
+
+fun MatchStatsBodyDto.toMatchStatistics(): MatchStatistics {
+    val matchDto = roundsDto[0]
+    return MatchStatistics(
+        bestOf = matchDto.bestOf,
+        competitionId = matchDto.competitionId,
+        gameId = matchDto.gameId,
+        gameMode = matchDto.gameMode,
+        matchId = matchDto.matchId,
+        matchRound = matchDto.matchRound,
+        played = matchDto.played,
+        roundStats = matchDto.roundStatsDto.toRoundStats(),
+        teams = matchDto.teamsDto.map { it.toMatchTeam() }
+    )
+}
+
+fun RoundStatsDto.toRoundStats(): RoundStats {
+    return RoundStats(
+        map = map,
+        region = region,
+        rounds = rounds,
+        score = score,
+        winner = winner
+    )
+}
+
+fun TeamDto.toMatchTeam(): MatchTeam {
+    return MatchTeam(
+        players = playersDto.map { it.toTeamPlayer() },
+        premade = premade,
+        teamId = teamId,
+        teamStats = teamStatsDto.toTeamStats()
+    )
+}
+
+fun PlayerDto.toTeamPlayer(): TeamPlayer {
+    return TeamPlayer(
+        nickname = nickname,
+        playerId = playerId,
+        playerStats = playerStatsDto.toPlayerStats()
+    )
+}
+
+fun TeamStatsDto.toTeamStats(): TeamStats {
+    return TeamStats(
+        finalScore = finalScore,
+        firstHalfScore = firstHalfScore,
+        overtimeScore = overtimeScore,
+        secondHalfScore = overtimeScore,
+        team = team,
+        teamHeadshots = teamHeadshots,
+        teamWin = teamWin
+    )
+}
+
+fun PlayerStatsDto.toPlayerStats(): PlayerStats {
+    return PlayerStats(
+        assists = assists,
+        deaths = deaths,
+        headshots = headshots,
+        headshotsPercentage = headshotsPercentage,
+        kdRatio = kdRatio,
+        krRatio = krRatio,
+        kills = kills,
+        mvps = mvps,
+        pentaKills = pentaKills,
+        quadroKills = quadroKills,
+        result = result,
+        tripleKills = tripleKills
+    )
+}
+

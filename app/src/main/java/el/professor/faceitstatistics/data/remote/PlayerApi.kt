@@ -4,7 +4,7 @@ import el.professor.faceitstatistics.data.remote.dto.PlayerDetailsDto
 import el.professor.faceitstatistics.data.remote.dto.PlayerInfoDto
 import el.professor.faceitstatistics.data.remote.dto.SearchResult
 import el.professor.faceitstatistics.data.remote.dto.matchDto.MatchHistoryBody
-import el.professor.faceitstatistics.data.remote.dto.matchDto.MatchStatsBody
+import el.professor.faceitstatistics.data.remote.dto.matchDto.MatchStatsBodyDto
 import el.professor.faceitstatistics.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -48,7 +48,7 @@ interface PlayerApi {
     suspend fun getMatchStats(
         @Header("Authorization") key: String = "Bearer $API_KEY",
         @Path("match_id") matchId: String,
-    ): Response<MatchStatsBody>
+    ): Response<MatchStatsBodyDto>
 
     companion object {
         const val API_KEY = "0efd20ce-ba50-4480-9fbf-7e02e428d945"

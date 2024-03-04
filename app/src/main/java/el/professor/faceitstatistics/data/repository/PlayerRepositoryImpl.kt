@@ -2,10 +2,12 @@ package el.professor.faceitstatistics.data.repository
 
 import android.util.Log
 import el.professor.faceitstatistics.data.local.PlayerDatabase
+import el.professor.faceitstatistics.data.mapper.toMatchStatistics
 import el.professor.faceitstatistics.data.mapper.toPlayer
 import el.professor.faceitstatistics.data.mapper.toPlayerDetails
 import el.professor.faceitstatistics.data.mapper.toPlayerEntity
 import el.professor.faceitstatistics.data.remote.PlayerApi
+import el.professor.faceitstatistics.domain.model.MatchStatistics
 import el.professor.faceitstatistics.domain.model.Player
 import el.professor.faceitstatistics.domain.model.PlayerDetails
 import el.professor.faceitstatistics.domain.repository.PlayerRepository
@@ -13,8 +15,6 @@ import el.professor.faceitstatistics.util.Resource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.json.JSONArray
-import org.json.JSONObject
 
 class PlayerRepositoryImpl(
     private val api: PlayerApi,
@@ -80,12 +80,12 @@ class PlayerRepositoryImpl(
         }
     }
 
-    override suspend fun getMatchStatistics(matchId: String): Flow<Resource<String>> {
+    override suspend fun getMatchStatistics(matchId: String): Flow<Resource<MatchStatistics>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
             val response = api.getMatchStats(matchId = matchId)
             if (response.isSuccessful) {
-                emit(Resource.Success(data = response.body()?.rounds.toString()))
+                emit(Resource.Success(data = response.body()?.toMatchStatistics()))
             } else {
                 emit(Resource.Error(message = response.message()))
             }
