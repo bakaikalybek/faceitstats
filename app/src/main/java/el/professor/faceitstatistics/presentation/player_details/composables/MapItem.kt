@@ -1,4 +1,4 @@
-package el.professor.faceitstatistics.presentation.player_details
+package el.professor.faceitstatistics.presentation.player_details.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

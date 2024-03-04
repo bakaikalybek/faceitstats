@@ -9,7 +9,7 @@ interface PlayerRepository {
 
     suspend fun searchPlayer(query: String): Flow<Resource<List<Player>>>
     suspend fun getPlayersStatistics(playerId: String): Flow<Resource<PlayerDetails>>
-
     suspend fun addOrDeletePlayer(player: Player): Flow<Resource<String>>
+    suspend fun getMatchStatistics(matchId: String): Flow<Resource<String>>
 
 }

@@ -11,10 +11,10 @@ data class PlayerInfoDto(
 )
 
 data class GamesDto(
-    @SerializedName("csgo") val csgo: CsgoDto
+    @SerializedName("cs2") val cs: CsDto
 )
 
-data class CsgoDto(
+data class CsDto(
     @SerializedName("faceit_elo") val elo: Int,
     @SerializedName("game_player_name") val playerNameInGame: String,
     @SerializedName("skill_level") val level: Int,

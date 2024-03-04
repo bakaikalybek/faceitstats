@@ -1,7 +1,6 @@
 package el.professor.faceitstatistics.di
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -9,6 +8,7 @@ import el.professor.faceitstatistics.data.local.PlayerDatabase
 import el.professor.faceitstatistics.data.remote.PlayerApi
 import el.professor.faceitstatistics.data.repository.PlayerRepositoryImpl
 import el.professor.faceitstatistics.domain.repository.PlayerRepository
+import el.professor.faceitstatistics.presentation.match.MatchStatsViewModel
 import el.professor.faceitstatistics.presentation.player_details.PlayerDetailsViewModel
 import el.professor.faceitstatistics.presentation.players_list.PlayersListViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -55,4 +55,5 @@ val repositoryModule = module {
 val viewModelModule = module {
     viewModel { PlayersListViewModel(get()) }
     viewModel { PlayerDetailsViewModel(get(), get()) }
+    viewModel { MatchStatsViewModel(get(), get()) }
 }

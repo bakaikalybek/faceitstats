@@ -4,13 +4,8 @@ import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,18 +20,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import el.professor.faceitstatistics.R
 import el.professor.faceitstatistics.domain.model.Player
 import el.professor.faceitstatistics.presentation.destinations.MapDetailsScreenDestination
+import el.professor.faceitstatistics.presentation.destinations.MatchStatsScreenDestination
+import el.professor.faceitstatistics.presentation.player_details.composables.MapItem
+import el.professor.faceitstatistics.presentation.player_details.composables.MatchItem
 import el.professor.faceitstatistics.ui.theme.DarkBlue
-import el.professor.faceitstatistics.ui.theme.GoogleSans
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,7 +100,7 @@ fun PlayerDetailsScreen(
                                 )
                             }
 
-                            val resId = when (playerDetails.games.csgo.level) {
+                            val resId = when (playerDetails.games.cs.level) {
                                 1 -> R.drawable.faceit1
                                 2 -> R.drawable.faceit2
                                 3 -> R.drawable.faceit3
@@ -148,7 +143,7 @@ fun PlayerDetailsScreen(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "${playerDetails.games.csgo.elo} ELO",
+                            text = "${playerDetails.games.cs.elo} ELO",
                             color = Color.Gray,
                             modifier = Modifier
                                 .padding(bottom = 16.dp)
@@ -200,6 +195,22 @@ fun PlayerDetailsScreen(
                     for (i in orderedMaps.indices) {
                         MapItem(map = orderedMaps[i], modifier = Modifier.clickable {
                             navigator.navigate(MapDetailsScreenDestination(map = orderedMaps[i]))
+                        })
+                    }
+
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        color = Color.DarkGray
+                    )
+                    val history = playerDetails.matches
+
+                    Text(text = "Last ${history.size} matches", color = Color.Gray, fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp, start = 16.dp, bottom = 4.dp))
+
+                    for (i in history.indices) {
+                        MatchItem(matchInfo = history[i], modifier = Modifier.clickable {
+                            navigator.navigate(MatchStatsScreenDestination(matchId = history[i].matchId))
                         })
                     }
                 }

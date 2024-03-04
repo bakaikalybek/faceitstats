@@ -43,16 +43,13 @@ class PlayerRepositoryImpl(
     override suspend fun getPlayersStatistics(playerId: String): Flow<Resource<PlayerDetails>> {
         return flow {
             emit(Resource.Loading(isLoading = true))
-            try {
-                coroutineScope {
-                    val playerInfo = async { api.getPlayerInfo(playerId = playerId) }.await()
-                    val playerStats = async { api.getPlayerStatistics(playerId = playerId) }.await()
-                    if (playerInfo.isSuccessful && playerStats.isSuccessful) {
-                        emit(Resource.Success(data = playerStats.body()?.toPlayerDetails(playerInfo.body()!!)))
-                    }
+            coroutineScope {
+                val playerInfo = async { api.getPlayerInfo(playerId = playerId) }.await()
+                val playerStats = async { api.getPlayerStatistics(playerId = playerId) }.await()
+                val playerHistory = async { api.getMatchHistory(playerId = playerId) }.await()
+                if (playerInfo.isSuccessful && playerStats.isSuccessful) {
+                    emit(Resource.Success(data = playerStats.body()?.toPlayerDetails(playerId, playerInfo.body()!!, playerHistory.body()!!.matches)))
                 }
-            } catch (e: Exception) {
-                emit(Resource.Error(message = e.localizedMessage ?: "error in getPlayersStatistics request"))
             }
         }
     }
@@ -79,6 +76,18 @@ class PlayerRepositoryImpl(
                         emit(Resource.Success("Deleted"))
                     }
                 }
+            }
+        }
+    }
+
+    override suspend fun getMatchStatistics(matchId: String): Flow<Resource<String>> {
+        return flow {
+            emit(Resource.Loading(isLoading = true))
+            val response = api.getMatchStats(matchId = matchId)
+            if (response.isSuccessful) {
+                emit(Resource.Success(data = response.body()?.rounds.toString()))
+            } else {
+                emit(Resource.Error(message = response.message()))
             }
         }
     }

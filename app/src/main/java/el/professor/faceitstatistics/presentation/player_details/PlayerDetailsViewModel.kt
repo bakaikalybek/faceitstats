@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import el.professor.faceitstatistics.domain.model.Player
 import el.professor.faceitstatistics.domain.repository.PlayerRepository
 import el.professor.faceitstatistics.util.Resource
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -21,12 +22,18 @@ class PlayerDetailsViewModel(
 
     var state by mutableStateOf(PlayerDetailsState())
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        state = state.copy(
+            isLoading = false,
+            error = throwable.message ?: "Fail"
+        )
+    }
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val player = savedStateHandle.get<Player>("player") ?: return@launch
             state = state.copy(isLoading = true)
             repository.getPlayersStatistics(playerId = player.playerId).collect { result ->
-                Log.i("PlayerDetailsViewModel", "${result.data?.games?.csgo?.elo} - ${result.data?.games?.csgo?.playerNameInGame}")
+                Log.i("PlayerDetailsViewModel", "${result.data?.games?.cs?.elo} - ${result.data?.games?.cs?.playerNameInGame}")
                 when(result) {
                     is Resource.Success -> {
                         state = state.copy(
@@ -84,4 +91,6 @@ class PlayerDetailsViewModel(
                 }
         }
     }
+
+
 }
